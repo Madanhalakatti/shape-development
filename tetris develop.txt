@@ -1,0 +1,34 @@
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+public class Tetris Extends Jframe {
+
+	private Jlabel  statusbar;
+	public  Tetris() {
+		
+		initUI();
+		
+	}
+	private void initUI() {
+		status bar = new Jlabel("0");
+		add (statusbar , BorderLayout.SOUTH);
+		var board = new Board(this);
+		board.start();
+		setTitle ("Tetris");
+		setsize(200,400);
+		setDefaultcloseoperation(Exit_ON_CLOSE);
+		setLocationRelativeTo(null);
+		// TODO Auto-generated method stub
+		
+	}
+	JLabel getstatusbar() {
+		return statusbar;
+	}
+	
+	public static void main(String [] args ) {
+		EventQueue.invokeLater(() -> {
+			var game=new Tetris();
+			game.setvisible(true);
+		});
+	}
+}
