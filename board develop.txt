@@ -1,0 +1,267 @@
+package com.game;
+
+import java.awt.event.KeyEvent;
+import java.util.Timer;
+
+import javax.swing.JLabel;
+
+import com. game.shape.Tetrominoe;
+
+
+public class Board extends Jpanel {
+	private final int BOARD_WIDTH =10;
+	private final int BOARD_HEIGHT=22;
+	private final int PERIOD_INTERVAL = 300;
+	
+	
+	private Timer timer;
+	private boolean isfallingfinished = false;
+	private boolean ispaused = false;
+	private int numlinesremoved=0;
+	private int curX=0;
+	private int curY=0;
+	private JLabel statusbar;
+	private Shape curpiece;
+	private Tetrominoe [] board;
+}
+public Board(tetris parent) {
+	intiboard(parent);
+}
+Private void intiboard(tetris parent) {
+	private void intiboard(tetris parent) {
+		setfousable(true);
+		statusbar =parent.getstatusbar();
+		addkeylistner(new Tadapter());
+	}
+}
+private int squareWidth() {
+	return (int) getsize. getwidth();
+}
+private int squareHeight() {
+	return (int) getsize().getHeight()
+}
+private tetromine shapeAt(intx,inty) {
+	return board [(y*BOARD_WIDTH)+x];
+}
+void start () {
+	 
+	curprice = new shape();
+	board=new tetrominoe[Board_Width* Board_Height];
+	clear board();
+	newpiece();
+	timer = new Timer(period_interval,new GameCycle());
+	Timer.start();
+}
+private void pause() {
+	ispaused = !ispaused;
+	statusbar.setText ("paused");
+}else {
+	statusbar.set text((string .valueof(numlineseRemoved));
+}
+repaint();
+}
+public void paint component(Graphics g ) {
+super.paintComponent(g);
+doDrawing(g);
+private void Dodrawing(graphics g) {
+	var size=get size();
+	int boardTope= (int) (size.getheight)()-Board_Height*SquareHeight());
+	for (int=0; i<Board_height; i++) {
+		for(int j=0; j<Board_width; j++) {
+			Tetrominoe shape=shapeAt(j,Board_width-i -1);
+			if (shape !=Tetrominoe.Noshape) {
+				Drawsquare(g,j*Squarewidth(),
+						boardtop+isquareheight ,shape)
+			}
+		}
+	}
+	if (curpiece.getshape()!=Tetrominoe.Noshape) {
+		for(int i=0; i<4;i++) {
+			int x=curX+curpiece.x(i);
+			int y=cury+curpiece.y(i);
+			drawSquare(g,x*squarewidth(),boardtop+(board_height-y-1) * squareheight(),curpiece.getshape());
+		}
+	}
+}
+private void dropdown() {
+	int newY=curY;
+	while(newY>0) {
+		if(!tryMove(curpiece,curx,newy-1)) {
+			break;
+		}
+		newY--;
+		
+	}
+	pieceDropped(); 
+}
+private void onelineDown() {
+	if(!tryMove(curpiece,curx,curY-1)) {
+		pieceDropped();
+	}
+}
+private void pieceDropped() {
+	for (int i=0; i<4;i++) {
+		int x=curx+curpiece.x(i);
+		int y=cury-curpiece.y(i);
+		board(y*board_width+x=curpiece .getshape();
+	}
+	removefullLines
+	
+	
+	if (!isfallingfinished) {
+		newpiece();
+	}
+}
+ private void removeFullLines() {
+	 int numfullLines=0;
+	 for(int i=Board_HEight-1;i>=0;i--) {
+		 boolean linesidfull=true;
+		 for(int j=0 j<Board_width,j++) {
+			 if (shapeAT(j,i)== Tetrominoe.NoShape) {
+				 lineisFull= false;
+				 break;
+				 
+			 }
+		 }
+		 
+		 if(lineisfull) {
+			 numFullines++;
+			 for(int k=i; k< Board_Height-1; k++) {
+	          for(int j=0; j<Board_width;j++) {
+	        	  board[(k* BOARD_WIDTH+j)]=shapeAT(j,k+1);
+	        	  
+	       
+	          
+	            }
+		
+			 }
+		 }
+			 
+	
+	 
+	 if(numFullLines>0) {
+		 numLinesRemoved+=numFullines;
+		 Statusbar.settext(string.valueof(numlinesremoved));
+		 isfallingFinished=true;
+		 curpiece.setshape(tetrominoe.Noshape);
+	 }
+	 
+	 
+ }
+	
+	
+private void clearBoard() {
+    for(int i=0;i<Board_height*board_width,i++) {
+    	board[i] = Tetrominoe.noshape;
+    }
+	
+}
+
+
+private  void newpiece() {
+	curpiece.setrandomshape();
+	curx = Boardwidth/2+1;
+	cury=  boardheight-1+curpiece.miny();
+	
+	if (!trymove(curpiece),curx,curY)){
+			curpiece.setshape((tetrominoe.Noshape);
+			timer.stop();
+			var msg= String.format("Game over score:%d",numlinesRemoved)
+					statusbar.setText(msg);
+		}
+}
+	
+private boolean trymove(Shape newpiece,int newx,int newy) {
+	for(int i=0; i<4;i++) {
+		int x=newx= newpiece.x(i);
+		int y=newy-newpiece.y(i);
+		if(x<0||x>=BOARD_WIDTH || y < 0|| y>=BOARD_HEIGHT) {
+			return false;
+	}
+		if(shapeAt(x,y)!=Tetrominoe.Noshape) {
+				
+	return false;
+}
+		curpiece=newpiece;
+		curx=newx;
+		cury=newy;
+		
+		repaint();
+		return true;
+	}
+private void drawsquare(Graphics g, intx, inty, tetromione shape) {
+	color colors[]= {new color(0,0,0), new color (204 102, 102),
+			new color(102, 102, 204), new color (102, 102, 204),
+			new color (204, 204 , 102), new color(204, 204,102),
+			new color (102, 204,204),   new color(218, 170, 0)
+	}
+};
+var Color= color[shape.ordinal()];
+g.setColor (color);
+g.fillRect(X+1,Y+1, squarewidth() -2, Squareheight()-2);
+
+g.setColor(color.brighter ());
+g.drawline(x,y +sauareHeight() -1, x,y);
+g.drawline (x,y, x+squarewidth() -1,y);
+
+g.setColor(color.draker ());
+g.drawline(x+1, y+sauareHeight() -1, x+ squarewidth ()-1,,y+squareheight()-1);
+g.drawline ( x+squarewidth() -1,  y+squareheight()-1,x+squarewidth()-1 ,y+1);
+			
+}
+private class Gamecycle implements actionlistner{
+	public void actionperformed (ActionEvent e) {
+		doGameCycle();
+	}
+	private void dogameCycle() {
+		update();
+		repaint();
+		
+	}
+	
+	private void update(){
+		if(ispaused) {
+			return;
+			}
+	if (isfallingFinished) {
+		is falling finished=false;
+		newpiece();
+	} else {
+		onelinedown();
+		
+	}
+		
+	}
+}
+private class Tadapter extends KeyAdapter{
+	public void keypressed(keyEvent e) {
+		if (curpiece .getshape()== Tetrominoe.Noshape) {
+			return;
+			
+		}
+		int keycode=e.getKeycode()
+			switch (keycode) {
+			case keyEvent.VK_p-> pause();
+			case KeyEvent.VK_LEFT->tryMove(curpiece, curX-1,curY)
+			case KeyEvent.VK_RIGHT-> try move(curpiece cur+1, curY)
+			case KeyEvent .VK_DOWN-> tryMove (curpiece.rotateright(), curx, curY)
+			case KeyEvent .VK_UP-> try move(cur piece .rotateleft (), curx, curY)
+			case KeyEvent .VK_SPACE-> dropDown();
+					
+			case KeyEvent .VK_D -> oneLineDown();
+					
+			}
+	}
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
