@@ -1,0 +1,85 @@
+package com.game;
+
+public class Shape {
+	protected enum Tetraminoe{
+		NoShape,Zshape,Lineshape,Tshape,Squareshape,Lshape,Mirrorshaped}
+	private Tetraminoe pieceshape;
+	private int coords [][];
+	private int coordsTable;
+	public Shape() {
+		initshape();
+	}
+	private void initshape() {
+		coords = new int[4][2];
+		coordsTable = new int [][][] {
+			{{0,0},{0,0},{0,0},{0,0}},
+			{{0,-1},{0,0},{-1,0},{-1,1}},
+			{{0,-1},{0,0},{1,0},{1,1}},
+			{{0,-1},{0,0},{0,1},{0,2},
+			{{-1,0},{0,0},{1,0},{0,1}},
+			{{0,0},{1,0},{0,1},{1,1}},
+			{{-1,-1},{0,1},{0,0},{0,1}},  
+			{{1,-1},{0,-1},{0,0},{0,1}
+			};
+			setShape(Tetraminoe.noShape);
+			}
+			private void setShape(Tetraminoe noshape) {
+				for(int i=0;i<4;i++) {
+				for (int j=0;i<2;j++) {
+					coords[i][j]= coordstable [shape.ordinal() [i][j]];
+				}				
+				}
+				pieceShape = shape;
+			}
+			private void setX(int index,inty) {coords[index][0]=x;}
+			private void setY(int index,inty) {coords[index][1]=y;}
+			public int x(int index) {return coords[index[1];}
+			public int y(int index) {
+				return coords [index][1];}
+			public Tetraminoe getshape() {
+				return pieceShape;
+		}
+	 public void  setRandom shape() {
+		 var r=new Random();
+		 int x =Math.abs(r.nextInt())%7 +1;
+		 Tetraminoe[] values=tetraminoe.values();
+		 setshape(values[x]);
+	 }
+	 public int minX() {
+		 int m=coords[0][0];
+		 for(int i=0; i<4; i++) {
+			 m=Math.min(m,coords [i][0]);
+		 }
+		 return m;
+	 }
+	 public int MinY() {
+		 int m=coords[0][1];
+		 for(int i=0;i<4;i++) {
+			 m=Math.min(m,coords [i][1]);
+		 }
+		 return m;
+	 }
+	 public shape roataeleft() {
+		 if (pieceshape == Tetraminoe.Squareshape) {
+			 return this;
+		 }
+		 var result = new shape();
+		 result.pieceshape=pieceshape;
+		 for(int i=0;i<4;i++) {
+			 result.setX(i,y(i));
+			 result.setY(i,-x(i));
+		 }
+		 return result;
+	 }
+	 
+	 public shape rotateright() {
+		 if(pieceshape == Tetraminoe.Squareshape) {
+			 return this;
+		 }
+		 var result = new shape();
+		 result.pieceshape=pieceshape;
+		 for(int i=0;i<4; ++1) {
+			 result.setX(i,-y(i));
+			 result.setY(i,x(i));
+		 }
+	 }
